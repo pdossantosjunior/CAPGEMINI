@@ -1,0 +1,14 @@
+UPDATE clientes SET email = 'test@email.com'
+WHERE id = 2
+
+
+UPDATE clientes SET nome = 'Anavitt',
+		    cpf = '12345678902',
+	   	    email = 'test@email.com'                    
+WHERE id = 2
+
+
+
+DELETE FROM clientes WHERE id = 5
+
+

@@ -1,0 +1,36 @@
+CREATE TABLE vendas
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    datavenda DATE NOT NULL,
+    idcliente INT NOT NULL,
+    totalvenda FLOAT NOT NULL,
+    FOREIGN KEY (idcliente) REFERENCES clientes (id)
+)
+
+
+CREATE TABLE itens_vendas
+(
+	idproduto INT NOT NULL,
+    idvenda INT NOT NULL,
+    valorproduto FLOAT NOT NULL,
+    desconto FLOAT NOT NULL,
+    FOREIGN KEY (idproduto) REFERENCES produtos (id),
+    FOREIGN KEY (idvenda) REFERENCES vendas (id),
+    
+    PRIMARY KEY (idproduto, idvenda)    #chave primária composta - ou um ou outro será a chave primária, mas não os dois ao mesmo tempo.
+)
+
+
+INSERT INTO produtos (id, descricao, qtdEstoque, preco, idcategoria) VALUES
+       		     (2, 'Presunto', 30, 45.55, 1)
+
+
+INSERT INTO vendas (datavenda, idcliente, totalvenda) VALUES
+		   (20230313, 1, 250.00)
+
+
+INSERT INTO itens_vendas (idproduto, idvenda, valorproduto, desconto) VALUES
+			 (1, 1, 5, 10)
+
+INSERT INTO itens_vendas (idproduto, idvenda, valorproduto, desconto) VALUES
+                         (2, 1, 5, 10)

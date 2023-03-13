@@ -1,0 +1,18 @@
+DROP TABLE clientes		#Exclui a tabela
+
+
+CREATE TABLE clientes
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    cpf CHAR(11) NOT NULL,
+    datanascimento DATE	NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    ativo BIT NOT NULL			#true / false
+)
+
+
+INSERT INTO clientes (nome,cpf,datanascimento,email,ativo) VALUES 
+                     ('Paulo César', '12345678901','19880125','test@email.com',true)
+
+

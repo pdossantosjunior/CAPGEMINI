@@ -1,0 +1,23 @@
+SELECT id, preco, descricao FROM produtos
+
+
+SELECT p.id, p.descricao, p.qtdEstoque, c.nome
+FROM produtos p 	# p é um alias para produtos - apelido
+INNER JOIN categorias c ON c.id = p.idcategoria
+
+SELECT p.id 'ID', p.descricao 'Descrição', p.qtdEstoque 'Estoque', c.nome 'Categoria'   #alias para as colunas
+FROM produtos p 	# p é um alias para produtos - apelido
+INNER JOIN categorias c ON c.id = p.idcategoria
+
+
+SELECT p.id 'ID', p.descricao 'Descrição', p.qtdEstoque 'Estoque', c.nome 'Categoria'   #alias para as colunas
+FROM produtos p 	# p é um alias para produtos - apelido
+INNER JOIN categorias c ON c.id = p.idcategoria
+
+WHERE p.preco < 10
+
+
+SELECT p.id 'ID', p.descricao 'Descrição', p.qtdEstoque 'Estoque', c.nome 'Categoria'   #alias para as colunas
+FROM produtos p 	# p é um alias para produtos - apelido
+INNER JOIN categorias c ON c.id = p.idcategoria
+WHERE p.preco < 10 OR p.qtdEstoque > 10		#OR ou AND para fazer testes lógicos 

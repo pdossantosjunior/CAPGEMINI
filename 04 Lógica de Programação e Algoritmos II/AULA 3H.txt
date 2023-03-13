@@ -1,0 +1,31 @@
+SELECT p.id 'Código', p.descricao 'Descrição', (p.preco * p.qtdEstoque) 'Total', c.nome 'Categoria'
+FROM produtos p
+INNER JOIN categorias c ON p.idcategoria = c.id 
+
+
+SELECT idproduto, (valorproduto - (valorproduto*desconto/100))
+FROM itens_vendas
+
+
+INSERT INTO categorias (nome) VALUES ('Higiene')
+
+
+INSERT INTO categorias (nome) VALUES ('Bebidas')
+
+
+INSERT INTO produtos (descricao, qtdEstoque, preco, idcategoria) VALUES
+		     ('Papel Toalha', 40, 3.50, 2),
+                     ('Coca-Cola', 300, 7.50, 3),
+                     ('Cotonetes', 50, 5.00, 2)
+
+
+SELECT COUNT(p.id), c.nome
+FROM produtos p 
+INNER JOIN categorias c ON p.idcategoria = c.id
+GROUP BY p.idcategoria
+
+
+SELECT * FROM produtos ORDER BY preco
+
+
+SELECT * FROM produtos ORDER BY preco DESC   #ordena de forma decrescente

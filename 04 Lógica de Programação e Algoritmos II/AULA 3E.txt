@@ -1,0 +1,29 @@
+CREATE TABLE categorias
+(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL
+)
+
+
+
+CREATE TABLE produtos
+(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(50) NOT NULL,
+    qtdEstoque FLOAT NOT NULL,
+    preco FLOAT NOT NULL,
+    idcategoria INT NOT NULL,
+    FOREIGN KEY (idcategoria) REFERENCES categorias (id)
+)
+
+
+INSERT INTO categorias (nome) VALUES ('Frios')
+
+
+INSERT INTO produtos (descricao, preco, qtdEstoque, idcategoria) VALUES
+		     ('Queijo João', 99.00, 99, 1)
+
+
+
+
+
