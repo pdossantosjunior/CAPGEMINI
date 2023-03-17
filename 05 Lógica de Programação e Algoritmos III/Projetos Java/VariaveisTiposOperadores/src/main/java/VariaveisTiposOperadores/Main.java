@@ -15,13 +15,17 @@ public class Main {
         
         //Variáveis não primitivas
         String nome = "Texto armazenado em uma variável String";    //Em String usa-se as aspas duplas ""
+       
         
+        /*
         
         +   //Adição
         -   //Subtração
         /   //Divisão
         *   //Multuplicação
-        %   //Resto     
+        %   //Resto
+
+        */
         
     }
     
