@@ -15,15 +15,15 @@ public class Main {
        String nomeProduto;
        float precoCusto, precoVenda, totalCusto = 0.0f;
        float mediaCusto = 00.f, mediaVenda = 0.0f, totalVenda = 0.0f;
-       int contador = 40;   //Criei esse contador para facilitar os testes
+       int contador = 3;   //Criei esse contador para facilitar os testes
        
        Scanner leitor = new Scanner(System.in); //Cria o leitor
        
        for(int i = 0; i < contador; i++){
            
            System.out.println("Digite o nome do produto:");
-           nomeProduto = leitor.nextLine();
-           
+           nomeProduto = leitor.next();
+                   
            System.out.println("Digite o preço de custo do produto:");
            precoCusto = leitor.nextFloat();
            

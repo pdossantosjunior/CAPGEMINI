@@ -15,11 +15,11 @@ public class Main {
         int idade = leitor.nextInt();
         float cotacaoDolar = leitor.nextFloat();
         double cotacaoEuro = leitor.nextDouble();
-        String nome = leitor.nextLine(); //Lê uma frase inteira
-        String codigoRua = leitor.next(); //Lê uma palavra
+        String nome = leitor.nextLine(); //LÃª uma frase inteira
+        String codigoRua = leitor.next(); //LÃª uma palavra
         
-        System.out.println("Exibição no console."); //Imprime e quebra a linha
-        System.out.print("Exibição no console."); //Imprime e mantem o cursor na linha
+        System.out.println("ExibiÃ§Ã£o no console."); //Imprime e quebra a linha
+        System.out.print("ExibiÃ§Ã£o no console."); //Imprime e mantem o cursor na linha
                 
         
     }
