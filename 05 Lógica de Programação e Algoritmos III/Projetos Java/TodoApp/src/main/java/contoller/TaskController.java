@@ -23,7 +23,8 @@ public class TaskController {
 
     public void save(Task task) {
 
-        String sql = "INSERT INTO tasks (idProject,"
+        String sql = "INSERT INTO tasks "
+                + "(idProject,"
                 + "name,"
                 + "description,"
                 + "completed,"
@@ -48,8 +49,8 @@ public class TaskController {
             statement.setDate(7, new Date(task.getCreatedAt().getTime()));
             statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
             statement.execute();
-        } catch (Exception ex) {
-            throw new RuntimeException("Erro ao salvar a Tarefa "
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao salvar a tarefa "
                     + ex.getMessage(), ex);
         } finally {
             ConnectionFactory.closeConnection(connection, statement);
@@ -59,7 +60,7 @@ public class TaskController {
 
     public void update(Task task) {
 
-        String sql = "UPDATE tasks SET"
+        String sql = "UPDATE tasks SET "
                 + "idProject = ?,"
                 + "name = ?,"
                 + "description = ?,"
@@ -94,8 +95,8 @@ public class TaskController {
             //Executando a query
             statement.execute();
 
-        } catch (Exception ex) {
-            throw new RuntimeException("Erro ao atualizar a Tarefa "
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao atualizar a tarefa "
                     + ex.getMessage(), ex);
         } finally {
             ConnectionFactory.closeConnection(connection, statement);
@@ -123,7 +124,7 @@ public class TaskController {
             //Executando a query
             statement.execute();
 
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             throw new RuntimeException("Erro ao deletar a tarefa"
                     + ex.getMessage(), ex);
         } finally {
@@ -134,8 +135,8 @@ public class TaskController {
 
     public List<Task> getAll(int idProject) {
 
-        String sql = "SELECT *"
-                + "FROM tasks"
+        String sql = "SELECT * "
+                + "FROM tasks "
                 + "WHERE idProject = ?";
 
         Connection connection = null;
@@ -175,7 +176,7 @@ public class TaskController {
                 tasks.add(task);
             }
 
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             throw new RuntimeException("Erro ao inserir a tarefa"
                     + ex.getMessage(), ex);
         } finally {

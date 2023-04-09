@@ -22,6 +22,10 @@ public class Project {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+    
+    public Project(){
+        this.createdAt = new Date();    //Método para criar a data no momento da criação do objeto
+    }
 
     public int getId() {
         return id;
