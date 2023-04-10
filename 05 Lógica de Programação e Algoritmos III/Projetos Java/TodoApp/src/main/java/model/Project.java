@@ -24,7 +24,13 @@ public class Project {
     }
     
     public Project(){
-        this.createdAt = new Date();    //Método para criar a data no momento da criação do objeto
+        this.createdAt = new java.sql.Date(System.currentTimeMillis());    //Método para criar a data no momento da criação do objeto
+        this.updatedAt = new java.sql.Date(System.currentTimeMillis()); 
+        /*
+        Antes estava 
+        this.createdAt = new Date();
+        Mas não estava funcionando, por isso coloquei da forma que está acima.
+        */
     }
 
     public int getId() {
@@ -70,6 +76,10 @@ public class Project {
     @Override
     public String toString() {
         return "Project{" + "id=" + id + ", name=" + name + ", description=" + description + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
+    }
+
+    public long getCreatedAt(int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

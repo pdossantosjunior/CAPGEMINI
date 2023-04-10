@@ -1,4 +1,4 @@
-package contoller;
+package controller;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -13,11 +13,10 @@ import util.ConnectionFactory;
 public class ProjectController {
 
     public void save(Project project) {
-
-        String sql = "INSERT INTO projects (name,"
-                + "description,"
-                + "createdAt,"
-                + "updatedAt) VALUES (?, ?, ?, ?)";
+        
+        String sql = "INSERT INTO projects "
+                + "(name, description, createdAt, updatedAt) "
+                + "VALUES ( ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement statement = null;
@@ -32,8 +31,7 @@ public class ProjectController {
             statement.setDate(4, new Date(project.getUpdatedAt().getTime()));
             statement.execute();
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao salvar o projeto "
-                    + ex.getMessage(), ex);
+            throw new RuntimeException("Erro ao salvar o projeto ", ex);
         } finally {
             ConnectionFactory.closeConnection(connection, statement);
         }
@@ -43,11 +41,11 @@ public class ProjectController {
     public void update(Project project) {
 
         String sql = "UPDATE projects SET "
-                + "name = ?,"
-                + "description = ?,"
-                + "createdAt = ?,"
-                + "updatedAt = ?"
-                + " WHERE id = ?";
+                + "name = ?, "
+                + "description = ?, "
+                + "createdAt = ?, "
+                + "updatedAt = ? "
+                + "WHERE id = ?";
 
         Connection connection = null;
         PreparedStatement statement = null;
@@ -70,15 +68,14 @@ public class ProjectController {
             statement.execute();
 
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao atualizar o projeto "
-                    + ex.getMessage(), ex);
+            throw new RuntimeException("Erro ao atualizar o projeto ", ex);
         } finally {
             ConnectionFactory.closeConnection(connection, statement);
         }
 
     }
 
-    public void removeById(int idProject) throws SQLException {
+    public void removeById(int idProject){
 
         String sql = "DELETE FROM projects WHERE id = ?";
 
@@ -99,8 +96,7 @@ public class ProjectController {
             statement.execute();
 
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao deletar o projeto"
-                    + ex.getMessage(), ex);
+            throw new RuntimeException("Erro ao deletar o projeto", ex);
         } finally {
             ConnectionFactory.closeConnection(connection, statement);
         }
@@ -109,15 +105,14 @@ public class ProjectController {
 
     public List<Project> getAll() {
 
-        String sql = "SELECT * "
-                + "FROM projects";
+        String sql = "SELECT * FROM projects";
+        
+        List<Project> projects = new ArrayList<>(); //Lista de tarefas que seá devolvida quando a chamada do método acontecer
 
         Connection connection = null;
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        //Lista de tarefas que seá devolvida quando a chamada do método acontecer
-        List<Project> projects = new ArrayList<>();
+        
+        ResultSet resultSet = null; //Classe que vai recuperar os dados do banco
 
         try {
             //Estabelecendo a conexão com o banco de dados
@@ -143,8 +138,7 @@ public class ProjectController {
             }
 
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao buscar o projeto "
-                    + ex.getMessage(), ex);
+            throw new RuntimeException("Erro ao buscar o projeto ", ex);
         } finally {
             ConnectionFactory.closeConnection(connection, statement, resultSet);
         }

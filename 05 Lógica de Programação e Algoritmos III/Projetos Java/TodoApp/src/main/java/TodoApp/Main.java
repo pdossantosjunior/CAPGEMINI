@@ -1,6 +1,6 @@
 package TodoApp;
 
-import contoller.ProjectController;
+import controller.ProjectController;
 import java.sql.Connection;
 import java.util.List;
 import model.Project;
@@ -20,10 +20,10 @@ public class Main {
         ProjectController projectController = new ProjectController();
         Project project = new Project();
         
-        project.setName("Projeto Teste");
-        project.setDescription("Teste teste teste");
-        System.out.println(project.getName() +" " + project.getDescription()); //Testando a classe Project
-        //projectController.save(project);
+        project.setName("Fim de teste");
+        project.setDescription("Aqui deu certo cambada kkkkkk");
+        System.out.println(project.getName() + " " + project.getDescription()); //Testando a classe Project
+        projectController.save(project);
 
 //        project.setName("Novo nome projeto");
 //        projectController.update(project);
