@@ -5,8 +5,17 @@
  */
 package view;
 
+import controller.ProjectController;
+import controller.TaskController;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import model.Project;
+import model.Task;
+import util.TaskTableModel;
 
 /**
  *
@@ -14,12 +23,20 @@ import java.awt.Font;
  */
 public class MainScreen extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainScreen
-     */
+    ProjectController projectController;
+    TaskController taskController;
+
+    DefaultListModel projectsModel;
+    TaskTableModel tasksModel;
+
     public MainScreen() {
         initComponents();
         decorateTableTasks(); //Chamando o metodo de personalização da Table de tarefas
+
+        initDataController(); //Chamando metodo para iniciar os controllers
+        
+        initComponentsModel();
+       
     }
 
     /**
@@ -145,7 +162,7 @@ public class MainScreen extends javax.swing.JFrame {
             jPanelProjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelProjectsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelProjectsTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                .addComponent(jLabelProjectsTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelProjectsAdd)
                 .addContainerGap())
@@ -199,11 +216,6 @@ public class MainScreen extends javax.swing.JFrame {
         jPanelProjectList.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jListProjects.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jListProjects.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jListProjects.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jListProjects.setFixedCellHeight(50);
         jListProjects.setSelectionBackground(new java.awt.Color(0, 153, 102));
@@ -259,6 +271,7 @@ public class MainScreen extends javax.swing.JFrame {
         jTableTasks.setGridColor(new java.awt.Color(255, 255, 255));
         jTableTasks.setRowHeight(50);
         jTableTasks.setSelectionBackground(new java.awt.Color(204, 255, 204));
+        jTableTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableTasks.setShowVerticalLines(false);
         jScrollPane1.setViewportView(jTableTasks);
 
@@ -266,7 +279,7 @@ public class MainScreen extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,7 +295,7 @@ public class MainScreen extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanelProjectList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelProjects, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelProjects, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelTasks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -311,13 +324,21 @@ public class MainScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
         ProjectDialogScreen projectDialogScreen = new ProjectDialogScreen(this, rootPaneCheckingEnabled);
         projectDialogScreen.setVisible(true);
+        
+        projectDialogScreen.addWindowListener(new WindowAdapter(){            
+            public void windowClosed(WindowEvent e){
+                loadProjects();
+            }
+        });
+        
+        
     }//GEN-LAST:event_jLabelProjectsAddMouseClicked
 
     private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTasksAddMouseClicked
         // TODO add your handling code here:
         TaskDialogScreen taskDiakogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
         //taskDiakogScreen.setProject(null);
-        taskDiakogScreen.setVisible(true);        
+        taskDiakogScreen.setVisible(true);
     }//GEN-LAST:event_jLabelTasksAddMouseClicked
 
     /**
@@ -377,19 +398,50 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JTable jTableTasks;
     // End of variables declaration//GEN-END:variables
 
-    public void decorateTableTasks(){
+    public void decorateTableTasks() {
         //Customização do Header da TableTasks
         jTableTasks.getTableHeader().setFont(new Font("Seogoe UI", Font.BOLD, 14));
-        jTableTasks.getTableHeader().setBackground(new Color(0,153,102));
-        jTableTasks.getTableHeader().setForeground(new Color(255,255,255));
-        
+        jTableTasks.getTableHeader().setBackground(new Color(0, 153, 102));
+        jTableTasks.getTableHeader().setForeground(new Color(255, 255, 255));
+
         //Criando um sort automático para as colunas da Table ///Poder ordenar crescente e decrescente
         jTableTasks.setAutoCreateRowSorter(true);
-        
+
     }
 
+    public void initDataController() {
+        
+        projectController = new ProjectController();
+        taskController = new TaskController();
+        
+    }
+    
+    public void initComponentsModel(){
+        projectsModel = new DefaultListModel();
+        loadProjects();
+        
+        tasksModel = new TaskTableModel();
+        jTableTasks.setModel(tasksModel);
+        loadTasks(5);
+    }
+    
+    public void loadTasks(int idProject){
+        List<Task> tasks = taskController.getAll(idProject);
+        tasksModel.setTasks(tasks);                    
+    }
+
+    public void loadProjects() {
+        List<Project> projects = projectController.getAll();
+
+        projectsModel.clear();
+        
+        for (int i = 0; i < projects.size(); i++) {            
+            Project project = projects.get(i);            
+            projectsModel.addElement(project);
+        }
+        
+        jListProjects.setModel(projectsModel);
+
+    }
 
 }
-
-
-
