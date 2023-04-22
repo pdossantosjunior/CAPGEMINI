@@ -27,7 +27,10 @@ public class Task {
     }
     
     public Task(){
-        this.createdAt = new Date();    //Método para criar a data no momento da criação do objeto
+        this.createdAt = new java.sql.Date(System.currentTimeMillis());
+        this.updatedAt = new java.sql.Date(System.currentTimeMillis());
+        //Método para criar a data no momento da criação do objeto
+        //Precisei atualizar para passar a data de criação
     }
 
     public int getId() {
