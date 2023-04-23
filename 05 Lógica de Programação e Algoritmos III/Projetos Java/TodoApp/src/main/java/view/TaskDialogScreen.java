@@ -88,7 +88,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         jPanelTask.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabelName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabelName.setText("Nome");
+        jLabelName.setText("Nome*");
 
         jTextFieldName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextFieldName.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +106,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         jScrollPaneDescription.setViewportView(jTextAreaDescription);
 
         jLabelDeadLine.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabelDeadLine.setText("Prazo");
+        jLabelDeadLine.setText("Prazo*");
 
         jLabelNotes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabelNotes.setText("Notas");
@@ -186,30 +186,41 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     private void jLabelToolBarSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelToolBarSaveMouseClicked
         // TODO add your handling code here:
         try {
-            Task task = new Task();
-            
-            //task.setIdProject(project.getId());  //Pega o ID do projeto
-            task.setIdProject(project.getId());
-            
-            task.setName(jTextFieldName.getText());
-            task.setDescription(jTextAreaDescription.getText());
-            task.setNotes(jTextAreaNotes.getText());
-            task.setIsComplete(false);
+            if (!jTextFieldName.getText().isEmpty()
+                    && !jFormattedTextFieldDeadLine.getText().isEmpty()) {
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date deadline = null;
+                Task task = new Task();
+  
+                task.setIdProject(project.getId());//Pega o ID do projeto
 
-            deadline = dateFormat.parse(jFormattedTextFieldDeadLine.getText());
-            task.setDeadline(deadline);
+                task.setName(jTextFieldName.getText());
+                task.setDescription(jTextAreaDescription.getText());
+                task.setNotes(jTextAreaNotes.getText());
+                task.setIsComplete(false);
 
-            controller.save(task);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date deadline = null;
 
-            JOptionPane.showMessageDialog(rootPane, "Tarefa salva com sucesso!");
+                deadline = dateFormat.parse(jFormattedTextFieldDeadLine.getText());
+                task.setDeadline(deadline);
+
+                controller.save(task);
+
+                JOptionPane.showMessageDialog(rootPane, "Tarefa salva com sucesso!");
+                
+                //Fecha a janela
+                this.dispose();
+
+            } else {
+
+                JOptionPane.showMessageDialog(rootPane, "A tarefa não foi salva, "
+                        + "pois existem campos obrigatórios a serem preenchidos.");
+
+            }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
-        this.dispose();
     }//GEN-LAST:event_jLabelToolBarSaveMouseClicked
 
     /**
@@ -275,5 +286,5 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     public void setProject(Project project) {
         this.project = project;
     }
-        
+
 }
