@@ -15,6 +15,8 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import model.Project;
 import model.Task;
+import util.ButtonColumnCellRenderer;
+import util.DeadlineColumnCellRenderer;
 import util.TaskTableModel;
 
 /**
@@ -22,21 +24,17 @@ import util.TaskTableModel;
  * @author Paulo César
  */
 public class MainScreen extends javax.swing.JFrame {
-    
+
     ProjectController projectController;
     TaskController taskController;
-    
     DefaultListModel projectsModel;
     TaskTableModel tasksModel;
-    
+
     public MainScreen() {
         initComponents();
-        decorateTableTasks(); //Chamando o metodo de personalização da Table de tarefas
-
         initDataController(); //Chamando metodo para iniciar os controllers
-
         initComponentsModel();
-        
+        decorateTableTasks(); //Chamando o metodo de personalização da Table de tarefas //Foi preciso colocar por ultimo para pintar a deadline
     }
 
     /**
@@ -327,32 +325,32 @@ public class MainScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
         ProjectDialogScreen projectDialogScreen = new ProjectDialogScreen(this, rootPaneCheckingEnabled);
         projectDialogScreen.setVisible(true);
-        
+
         projectDialogScreen.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
                 loadProjects();
             }
         });
-        
+
 
     }//GEN-LAST:event_jLabelProjectsAddMouseClicked
 
     private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTasksAddMouseClicked
         // TODO add your handling code here:
         TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
-        
+
         int projectIndex = jListProjects.getSelectedIndex();
         Project project = (Project) projectsModel.get(projectIndex);
         taskDialogScreen.setProject(project);
-        
+
         taskDialogScreen.setVisible(true);
-        
+
         taskDialogScreen.addWindowListener(new WindowAdapter() {
-            public void windowClosed(WindowEvent e){
+            public void windowClosed(WindowEvent e) {
                 int projectIndex = jListProjects.getSelectedIndex();
                 Project project = (Project) projectsModel.get(projectIndex);
                 loadTasks(project.getId());
-            }            
+            }
         });
     }//GEN-LAST:event_jLabelTasksAddMouseClicked
 
@@ -360,9 +358,9 @@ public class MainScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
         int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
         int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
-        
+
         Task task = tasksModel.getTasks().get(rowIndex); //Identifica qual é a tarefa selecionada
-        
+
         switch (columnIndex) {
             case 3:
                 taskController.update(task);
@@ -452,23 +450,32 @@ public class MainScreen extends javax.swing.JFrame {
 
         //Criando um sort automático para as colunas da Table ///Poder ordenar crescente e decrescente
         jTableTasks.setAutoCreateRowSorter(true);
+        //Chama a classe que altera a coluna Deadline
+        jTableTasks.getColumnModel().getColumn(2)
+                .setCellRenderer(new DeadlineColumnCellRenderer());
+        
+        jTableTasks.getColumnModel().getColumn(4)
+                .setCellRenderer(new ButtonColumnCellRenderer("edit"));
+        
+        jTableTasks.getColumnModel().getColumn(5)
+                .setCellRenderer(new ButtonColumnCellRenderer("delete"));
         
     }
-    
+
     public void initDataController() {
-        
+
         projectController = new ProjectController();
         taskController = new TaskController();
-        
+
     }
-    
+
     public void initComponentsModel() {
         projectsModel = new DefaultListModel();
         loadProjects();
-        
+
         tasksModel = new TaskTableModel();
         jTableTasks.setModel(tasksModel);
-        
+
         //Método carregado quando a tela é criada e força a seleção do primeiro Projeto para mostrar as tarefas
         if (!projectsModel.isEmpty()) {
             jListProjects.setSelectedIndex(0);
@@ -476,28 +483,28 @@ public class MainScreen extends javax.swing.JFrame {
             loadTasks(project.getId());
         }
     }
-    
+
     public void loadTasks(int idProject) {
         List<Task> tasks = taskController.getAll(idProject);
         tasksModel.setTasks(tasks);
-        
+
         showJTableTasks(!tasks.isEmpty()); //Chama o método e diz se está vazia ou não
     }
-    
+
     public void loadProjects() {
         List<Project> projects = projectController.getAll();
-        
+
         projectsModel.clear();
-        
+
         for (int i = 0; i < projects.size(); i++) {
             Project project = projects.get(i);
             projectsModel.addElement(project);
         }
-        
+
         jListProjects.setModel(projectsModel);
-        
+
     }
-    
+
     private void showJTableTasks(boolean hasTasks) {
         if (hasTasks) {
             //Existem tarefas
@@ -505,7 +512,7 @@ public class MainScreen extends javax.swing.JFrame {
                 jPanelEmptyList.setVisible(false);
                 jPanel5.remove(jPanelEmptyList);
             }
-            
+
             jPanel5.add(jScrollPaneTasks);
             jScrollPaneTasks.setVisible(true);
             jScrollPaneTasks.setSize(jPanel5.getWidth(), jPanel5.getHeight());
@@ -514,11 +521,11 @@ public class MainScreen extends javax.swing.JFrame {
                 jScrollPaneTasks.setVisible(false);
                 jPanel5.remove(jScrollPaneTasks);
             }
-            
+
             jPanel5.add(jPanelEmptyList);
             jPanelEmptyList.setVisible(true);
             jPanelEmptyList.setSize(jPanel5.getWidth(), jPanel5.getHeight());
         }
     }
-    
+
 }
