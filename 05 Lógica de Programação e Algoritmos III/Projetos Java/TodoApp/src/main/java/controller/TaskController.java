@@ -103,8 +103,8 @@ public class TaskController {
         }
 
     }
-
-    public void removeById(int taskId) throws SQLException {
+                                    //Removi após criar a opção de excluir na interface
+    public void removeById(int taskId) /*throws SQLException*/ {
 
         String sql = "DELETE FROM tasks WHERE id = ?";
 
